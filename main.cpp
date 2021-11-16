@@ -9,7 +9,7 @@ int main()
 	resizeConsole(ConsoleWidth, ConsoleHeight); // kich thuoc man hinh console
 
 	SetConsoleTitle(TEXT("Game Do Min")); // dat tieu de cho man hinh
-	//ok
+
 	veTittle();
 	khoiTao(9, 9, 10);
 	veTrangThaiChoiGame(1);
