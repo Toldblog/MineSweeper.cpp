@@ -10,6 +10,7 @@ COORD CViTriConTro;
 
 bool BSuDungPhim = false;
 bool BTrangThaiDangChoi = false;
+short STrangThai = 1;
 
 short ToaDoX;
 short ToaDoY;
@@ -31,6 +32,7 @@ void taoMang2ChieuDong()
 	}
 }
 
+
 void khoiTao(short SDong, short SCot, short SSoBom)
 {
 	CTBang.SDong = SDong;
@@ -43,7 +45,7 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	taoBomNgauNhien();
 	luuToaDoXY();
 	CViTriConTro = {0, 0};
-
+	BTrangThaiDangChoi = true;
 	veBang();
 
 }
@@ -80,8 +82,8 @@ void veO(short Sx, short Sy, short So)
 		break;
 	case 8:	Taomauo(toadoXao(Sx), toadoYao(Sy), 13, 15, "8 ");
 		break;
-		// Bom
-	case 9:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "B ");
+		// Bom tim duoc
+	case 9:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 15, "B ");
 		break;
 		//o chan mau xam
 	case 10:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 8, "  ");
@@ -93,12 +95,13 @@ void veO(short Sx, short Sy, short So)
 	case 12:	Taomauo(toadoXao(Sx) + 1 , toadoYao(Sy), 0, 11, " ");
 		break;
 		// X cam co
-	case 13:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "P ");
+	case 13:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "F ");
 
 		break;
-	case 14:	Taomauo(toadoXao(Sx), toadoYao(Sy), 15, 16, "Px ");
+	case 14:	Taomauo(toadoXao(Sx), toadoYao(Sy), 15, 16, "Fx");
 		break;
-	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "  ");
+		// Bom chua tim dc
+	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 12, "  ");
 		break;
 	}
 }
@@ -206,6 +209,8 @@ void moO(short SX, short SY)
 		// neu mo ngay o co bom -> thua
 		if (CTO[SX][SY].BCoBom)
 		{
+			veO(SY, SX, 15);
+			LOSE();
 			exit(0);
 		}
 		else
@@ -243,6 +248,8 @@ void moO(short SX, short SY)
 	}
 }
 // mo o (phim Z)
+
+
 void Z(short SX, short SY)
 {
 	// kiem tra o do k phai la do da mo va o do chua cam co -> mo o
@@ -250,9 +257,46 @@ void Z(short SX, short SY)
 	{
 		moO(SX, SY);
 		//cap nhat ve lai bang
+		if (BTrangThaiDangChoi)
+		{
+			if (CTBang.SSoOOaMo + CTBang.SSoBom == CTBang.SCot * CTBang.SDong)
+			{
+				WIN();
+			}
+		}
 		veBang();
 	}
 }
+
+
+void WIN()
+{
+	BTrangThaiDangChoi = false;
+	STrangThai = 2;
+	deleteRow(7, 1);
+	veTrangThaiChoiGame();
+}
+
+void LOSE()
+{
+	for (int i = 0; i < CTBang.SDong; ++i)
+	{
+		for (int j = 0; j < CTBang.SCot; ++j)
+		{
+			if (CTO[i][j].BCamnCo && CTO[i][j].BCoBom)
+				veO(j, i, 9);
+			else if (CTO[i][j].BCamnCo && !CTO[i][j].BCoBom)
+				veO(j, i, 14);
+			else if (!CTO[i][j].BDaMo && CTO[i][j].BCoBom)
+				veO(j, i, 15);
+		}
+	}
+	BTrangThaiDangChoi = false;
+	STrangThai = 3;
+	deleteRow(7, 1);
+	veTrangThaiChoiGame();
+}
+
 // ham xu ly phim tu ban phim do nguoi dung nhap vao
 void xuLyPhim(KEY_EVENT_RECORD key)
 {
@@ -261,24 +305,36 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 		switch (key.wVirtualKeyCode)
 		{
 		case VK_UP:
-			BSuDungPhim = true;
-			CViTriConTro.Y = ((CViTriConTro.Y == 0) ? CTBang.SDong - 1 : CViTriConTro.Y - 1);
+			if (BTrangThaiDangChoi)
+			{
+				BSuDungPhim = true;
+				CViTriConTro.Y = ((CViTriConTro.Y == 0) ? CTBang.SDong - 1 : CViTriConTro.Y - 1);
 				veBang();
+			}
 			break;
 		case VK_DOWN:
-			BSuDungPhim = true;
-			CViTriConTro.Y = ((CViTriConTro.Y == CTBang.SDong - 1) ? 0 : CViTriConTro.Y + 1);
-			veBang();
+			if (BTrangThaiDangChoi)
+			{
+				BSuDungPhim = true;
+				CViTriConTro.Y = ((CViTriConTro.Y == CTBang.SDong - 1) ? 0 : CViTriConTro.Y + 1);
+				veBang();
+			}
 			break;
 		case VK_LEFT:
-			BSuDungPhim = true;
-			CViTriConTro.X = ((CViTriConTro.X == 0) ? CTBang.SCot - 1 : CViTriConTro.X - 1);
-			veBang();
+			if (BTrangThaiDangChoi)
+			{
+				BSuDungPhim = true;
+				CViTriConTro.X = ((CViTriConTro.X == 0) ? CTBang.SCot - 1 : CViTriConTro.X - 1);
+				veBang();
+			}
 			break;
 		case VK_RIGHT:
-			BSuDungPhim = true;
-			CViTriConTro.X = ((CViTriConTro.X == CTBang.SCot-1) ? 0 : CViTriConTro.X + 1);
-			veBang();
+			if (BTrangThaiDangChoi)
+			{
+				BSuDungPhim = true;
+				CViTriConTro.X = ((CViTriConTro.X == CTBang.SCot - 1) ? 0 : CViTriConTro.X + 1);
+				veBang();
+			}
 			break;
 		case VK_RETURN:
 			
@@ -288,11 +344,17 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 			break;
 			// Z
 		case 0x5A:
-			Z(CViTriConTro.Y, CViTriConTro.X);
+			if (BTrangThaiDangChoi)
+			{
+				Z(CViTriConTro.Y, CViTriConTro.X);
+			}
 			break;
 			// X
 		case 0x58:
-			X(CViTriConTro.Y, CViTriConTro.X); // CTO la bang 2 chieu tao tu dong(y) den cot(x) 
+			if (BTrangThaiDangChoi)
+			{
+				X(CViTriConTro.Y, CViTriConTro.X); // CTO la bang 2 chieu tao tu dong(y) den cot(x) 
+			}
 			break;
 		}
 	}
@@ -345,7 +407,7 @@ void veTittle()
 	}
 }
 
-void veTrangThaiChoiGame(short STrangThai)
+void veTrangThaiChoiGame()
 {
 	setBackgroundColor(0);
 	Taomauo(1, 5, 15, 0, "MAP");
@@ -366,18 +428,18 @@ void veTrangThaiChoiGame(short STrangThai)
 		}
 		cout << "STATUS: PLAYING";
 	}
-	setColor(6); // status win
-	if (STrangThai == 2)
+	else if (STrangThai == 2)
 	{
+		setColor(6); // status win
 		for (int i = 0; i <= ConsoleWidth/2 -3 ; ++i)
 		{
 			cout << " ";
 		}
 		cout << "WIN";
 	}
-	setColor(4); // status lose
-	if (STrangThai == 3)
+	else if (STrangThai == 3)
 	{
+		setColor(4); // status lose
 		for (int i = 0; i <= ConsoleWidth/2 - 4; ++i)
 		{
 			cout << " ";

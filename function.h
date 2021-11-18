@@ -14,8 +14,12 @@ void xuatBom();
 void X(short SX, short SY);
 short demBomLanCan(short SX, short SY);
 void moO(short SX, short SY);
+
 void Z(short SX, short SY);
+
+void WIN();
+void LOSE();
 void xuLyPhim(KEY_EVENT_RECORD key);
 void xuLySuKien();
 void veTittle();
-void veTrangThaiChoiGame(short STrangThai);
+void veTrangThaiChoiGame();
