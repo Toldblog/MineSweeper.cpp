@@ -21,6 +21,7 @@ void luuToaDoXY()
 	ToaDoX = (ConsoleWidth / 2) - CTBang.SCot;
 	ToaDoY = ((ConsoleHeight - 6 - CTBang.SDong) / 2) + 6;
 }
+
 // tao bang bang vector 2 chieu
 void taoMang2ChieuDong()
 {
@@ -31,7 +32,6 @@ void taoMang2ChieuDong()
 		CTO[i].resize(CTBang.SCot);
 	}
 }
-
 
 void khoiTao(short SDong, short SCot, short SSoBom)
 {
@@ -49,6 +49,7 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	veBang();
 
 }
+
 // moi lan di chuyen x di 2 o
 short toadoXao(short Sx)
 {
@@ -101,7 +102,7 @@ void veO(short Sx, short Sy, short So)
 	case 14:	Taomauo(toadoXao(Sx), toadoYao(Sy), 15, 16, "Fx");
 		break;
 		// Bom chua tim dc
-	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 12, "  ");
+	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 16, 12, "B ");
 		break;
 	}
 }
@@ -163,6 +164,7 @@ void xuatBom()
 		cout << endl;
 	}
 }
+
 // cam co (phim X)
 void X(short SX, short SY) 
 {
@@ -184,6 +186,7 @@ void X(short SX, short SY)
 	}
 	veBang();
 }
+
 // ham cap nhat so bom lan can cua 1 o -> vector 2 chieu CTO[i][j]
 short demBomLanCan(short SX, short SY)
 {
@@ -198,6 +201,7 @@ short demBomLanCan(short SX, short SY)
 	}
 	return SDem;
 }
+
 // mo o co 3 loai (o co bom, o co so, o rong)
 void moO(short SX, short SY)
 {
@@ -247,9 +251,8 @@ void moO(short SX, short SY)
 		}
 	}
 }
+
 // mo o (phim Z)
-
-
 void Z(short SX, short SY)
 {
 	// kiem tra o do k phai la do da mo va o do chua cam co -> mo o
@@ -267,7 +270,6 @@ void Z(short SX, short SY)
 		veBang();
 	}
 }
-
 
 void WIN()
 {
