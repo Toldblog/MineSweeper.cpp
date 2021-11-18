@@ -42,7 +42,7 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	taoMang2ChieuDong();
 	taoBomNgauNhien();
 	luuToaDoXY();
-	CViTriConTro = { 0,0; }
+	CViTriConTro = {0, 0};
 
 	veBang();
 
