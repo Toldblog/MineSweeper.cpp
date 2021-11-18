@@ -9,15 +9,18 @@ vector <vector <CauTrucO> > CTO;
 COORD CViTriConTro;
 
 bool BSuDungPhim = false;
+bool BTrangThaiDangChoi = false;
 
 short ToaDoX;
 short ToaDoY;
 
+// dich chuyen bang ra giua man hinh console
 void luuToaDoXY()
 {
 	ToaDoX = (ConsoleWidth / 2) - CTBang.SCot;
 	ToaDoY = ((ConsoleHeight - 6 - CTBang.SDong) / 2) + 6;
 }
+// tao bang bang vector 2 chieu
 void taoMang2ChieuDong()
 {
 	
@@ -35,13 +38,16 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	CTBang.SSoBom = SSoBom;
 	CTBang.SSoCo = 0;
 	CTBang.SSoOOaMo = 0;
+
 	taoMang2ChieuDong();
 	taoBomNgauNhien();
 	luuToaDoXY();
+	CViTriConTro = { 0,0; }
+
 	veBang();
 
 }
-
+// moi lan di chuyen x di 2 o
 short toadoXao(short Sx)
 {
 	return (Sx * 2 + ToaDoX );
@@ -97,22 +103,31 @@ void veO(short Sx, short Sy, short So)
 	}
 }
 
+// muc do uu tien khi ve bang
+// 1	cam co	
+// 2	o co so
+// 3	o rong 
+// 4	o chan, o le
 void veBang()
 {
 	for (int i = 0; i < CTBang.SDong; ++i)
 	{
 		for (int j = 0; j < CTBang.SCot; ++j)
 		{
-			if (CTO[i][j].BCamnCo) veO(j, i, 13); // cam co
-			else if (CTO[i][j].SBomLanCan) veO(j, i, CTO[i][j].SBomLanCan); // ve o so
-			else if (CTO[i][j].BDaMo) veO(j, i, 0); // o rong
+			// cam co
+			if (CTO[i][j].BCamnCo) veO(j, i, 13);
+			// ve o co so
+			else if (CTO[i][j].SBomLanCan) veO(j, i, CTO[i][j].SBomLanCan); 
+			// o rong
+			else if (CTO[i][j].BDaMo) veO(j, i, 0); 
 		
-
-			else if ((i + j) % 2 == 0) veO(j, i, 10); // o chan
-			else veO(j, i, 11); // o le
+			// o chan
+			else if ((i + j) % 2 == 0) veO(j, i, 10); 
+			// o le
+			else veO(j, i, 11); 
 
 			if (BSuDungPhim == true) veO(CViTriConTro.X, CViTriConTro.Y, 12);
-			
+		
 		}
 	}
 }
@@ -145,16 +160,19 @@ void xuatBom()
 		cout << endl;
 	}
 }
-
-void X(short SX, short SY) // Cam co
+// cam co (phim X)
+void X(short SX, short SY) 
 {
+	// kiem tra o do la o chua mo
 	if (CTO[SX][SY].BDaMo == false)
 	{
+		// huy cam co
 		if(CTO[SX][SY].BCamnCo == true)
 		{
 			CTO[SX][SY].BCamnCo = false;
 			--CTBang.SSoCo;
 		}
+		// cam co
 		else
 		{
 			CTO[SX][SY].BCamnCo = true;
@@ -163,7 +181,7 @@ void X(short SX, short SY) // Cam co
 	}
 	veBang();
 }
-
+// ham cap nhat so bom lan can cua 1 o -> vector 2 chieu CTO[i][j]
 short demBomLanCan(short SX, short SY)
 {
 	short SDem = 0;
@@ -177,12 +195,15 @@ short demBomLanCan(short SX, short SY)
 	}
 	return SDem;
 }
-
+// mo o co 3 loai (o co bom, o co so, o rong)
 void moO(short SX, short SY)
 {
+	// kiem tra o do phai la o chua mo va chua cam co
 	if (!CTO[SX][SY].BDaMo && !CTO[SX][SY].BCamnCo)
 	{
+		// mo o
 		CTO[SX][SY].BDaMo = true;
+		// neu mo ngay o co bom -> thua
 		if (CTO[SX][SY].BCoBom)
 		{
 			exit(0);
@@ -190,17 +211,30 @@ void moO(short SX, short SY)
 		else
 		{
 			++CTBang.SSoOOaMo;
+			// kiem tra xung quang o co bom k
 			short SSoBomLanCan = demBomLanCan(SX, SY);
+			// o co so
 			if (SSoBomLanCan)
 			{
 				CTO[SX][SY].SBomLanCan = SSoBomLanCan;
 			}
-			else {
+			// o rong
+			else 
+			{
+				// thuat toan loang
+				//	(SX-1,SY-1)		(SX-1,SY)		(SX-1,SY+1)	
+				// 
+				//	(SX,SY-1)		(SX,SY)			(SX,SY+1)
+				// 
+				//	(SX+1,SY-1)		(SX+1,SY)		(SX+1,SY+1)
+
 				for (int i = SX - 1; i <= SX + 1; ++i)
 				{
 					for (int j = SY - 1; j <= SY + 1; ++j)
 					{
+						// kiem tra xem o do co nam trong bang k?
 						if (i < 0 || i >= CTBang.SDong || j < 0 || j >= CTBang.SCot || (i == SX && j == SY)) continue;
+						// goi de quy
 						moO(i, j);
 					}
 				}
@@ -208,17 +242,18 @@ void moO(short SX, short SY)
 		}
 	}
 }
-
+// mo o (phim Z)
 void Z(short SX, short SY)
 {
+	// kiem tra o do k phai la do da mo va o do chua cam co -> mo o
 	if (!CTO[SX][SY].BDaMo && !CTO[SX][SY].BCamnCo)
 	{
 		moO(SX, SY);
+		//cap nhat ve lai bang
 		veBang();
 	}
 }
-
-
+// ham xu ly phim tu ban phim do nguoi dung nhap vao
 void xuLyPhim(KEY_EVENT_RECORD key)
 {
 	if (key.bKeyDown) // co nhan phim
@@ -262,7 +297,6 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 		}
 	}
 }
-
 void xuLySuKien()
 {
 	while (1)

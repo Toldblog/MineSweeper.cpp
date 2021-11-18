@@ -17,6 +17,5 @@ void moO(short SX, short SY);
 void Z(short SX, short SY);
 void xuLyPhim(KEY_EVENT_RECORD key);
 void xuLySuKien();
-
 void veTittle();
 void veTrangThaiChoiGame(short STrangThai);
