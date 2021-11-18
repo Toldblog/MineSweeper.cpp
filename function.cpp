@@ -297,7 +297,7 @@ void xuLySuKien()
 void veTittle()
 {
 	short i;
-	for (i = 0; i <= ConsoleWidth; ++i)
+	for (i = 0; i < ConsoleWidth; ++i)
 	{
 		printf("%c", 45);
 	}
@@ -305,7 +305,7 @@ void veTittle()
 	cout  << endl;
 	setColor(7);
 	setBackgroundColor(0);
-	for (i = 0; i <= ConsoleWidth; ++i)
+	for (i = 0; i < ConsoleWidth; ++i)
 	{
 		printf("%c", 45);
 	}
