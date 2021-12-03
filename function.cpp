@@ -1,7 +1,6 @@
 #include "function.h"
 #include "main.h"
 #include "console.h"
-#include <time.h>
 #include <vector>
 
 CauTrucBang CTBang;
@@ -17,6 +16,8 @@ short SmucChon;
 
 short ToaDoX;
 short ToaDoY;
+
+bool Bend = false;
 
 // dich chuyen bang ra giua man hinh console
 void luuToaDoXY()
@@ -439,7 +440,6 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 				if (SviTri > SmucChon)
 					SviTri = 1;
 				veMenuChonCapDo();
-
 				break;
 			case 3:// trang choi game
 				if (BTrangThaiDangChoi)
@@ -559,5 +559,26 @@ void xuLySuKien()
 				//}
 			}
 		}
+	}
+}
+
+void timer()
+{
+	int s = 0, m = 0, h = 0;
+	while (true)
+	{
+		if (s == 60 && m == 60)
+		{
+			m = 0;
+			++h;
+		}
+		if (s == 60)
+		{
+			s = 0;
+			++m;
+		}
+		deleteRow()
+		cout << h << ":" << m << ":" << ++s;
+		Sleep(1000);
 	}
 }
