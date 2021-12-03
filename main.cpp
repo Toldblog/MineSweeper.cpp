@@ -5,16 +5,20 @@
 
 int main()
 {	
-	
-	resizeConsole(ConsoleWidth, ConsoleHeight); // kich thuoc man hinh console
-
 	SetConsoleTitle(TEXT("MINESWEEPER GAME")); // dat tieu de cho man hinh
 
+	resizeConsole(ConsoleWidth, ConsoleHeight); // kich thuoc man hinh console
+
 	veTittle();
-	khoiTao(10, 10, 4);
+
 	Cursor(false); // An con tro
-	veTrangThaiChoiGame();
+
+
+	//khoiTao(10, 10, 4);
 	
-	xuLySuKien();
+	//veTrangThaiChoiGame();
+	
+	//xuLySuKien();
+
 	return 0;
 }

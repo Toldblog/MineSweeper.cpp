@@ -11,6 +11,8 @@ COORD CViTriConTro;
 bool BSuDungPhim = false;
 bool BTrangThaiDangChoi = false;
 short STrangThai = 1;
+short STrangThaiMenu = 1; // menu chinh
+short SviTri = 0;
 
 short ToaDoX;
 short ToaDoY;
@@ -25,7 +27,7 @@ void luuToaDoXY()
 // tao bang bang vector 2 chieu
 void taoMang2ChieuDong()
 {
-	
+
 	CTO.resize(CTBang.SDong);
 	for (int i = 0; i < CTBang.SDong; ++i)
 	{
@@ -44,7 +46,7 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	taoMang2ChieuDong();
 	taoBomNgauNhien();
 	luuToaDoXY();
-	CViTriConTro = {0, 0};
+	CViTriConTro = { 0, 0 };
 	BTrangThaiDangChoi = true;
 	veBang();
 
@@ -53,7 +55,7 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 // moi lan di chuyen x di 2 o
 short toadoXao(short Sx)
 {
-	return (Sx * 2 + ToaDoX );
+	return (Sx * 2 + ToaDoX);
 }
 
 short toadoYao(short Sy)
@@ -83,26 +85,23 @@ void veO(short Sx, short Sy, short So)
 		break;
 	case 8:	Taomauo(toadoXao(Sx), toadoYao(Sy), 13, 15, "8 ");
 		break;
-		// Bom tim duoc
-	case 9:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 15, "B ");
+	case 9:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 15, "B ");// Bom tim duoc
 		break;
-		//o chan mau xam
-	case 10:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 8, "  ");
+	case 10:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 8, "  ");//o chan mau xam
 		break;
-		//o le mau trang
-	case 11:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 7, "  ");
-		break;
-		// con tro
-	case 12:	Taomauo(toadoXao(Sx) + 1 , toadoYao(Sy), 0, 11, " ");
-		break;
-		// X cam co
-	case 13:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "F ");
 
+	case 11:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 7, "  ");//o le mau trang
 		break;
-	case 14:	Taomauo(toadoXao(Sx), toadoYao(Sy), 15, 16, "Fx");
+
+	case 12:	Taomauo(toadoXao(Sx) + 1, toadoYao(Sy), 0, 11, " "); // con tro
 		break;
-		// Bom chua tim dc
-	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 16, 12, "B ");
+
+	case 13:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "F "); // X cam co
+		break;
+	case 14:	Taomauo(toadoXao(Sx), toadoYao(Sy), 15, 16, "Fx"); // cam co dung
+		break;
+
+	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 16, 12, "B ");// Bom chua tim dc
 		break;
 	}
 }
@@ -121,17 +120,17 @@ void veBang()
 			// cam co
 			if (CTO[i][j].BCamnCo) veO(j, i, 13);
 			// ve o co so
-			else if (CTO[i][j].SBomLanCan) veO(j, i, CTO[i][j].SBomLanCan); 
+			else if (CTO[i][j].SBomLanCan) veO(j, i, CTO[i][j].SBomLanCan);
 			// o rong
-			else if (CTO[i][j].BDaMo) veO(j, i, 0); 
-		
+			else if (CTO[i][j].BDaMo) veO(j, i, 0);
+
 			// o chan
-			else if ((i + j) % 2 == 0) veO(j, i, 10); 
+			else if ((i + j) % 2 == 0) veO(j, i, 10);
 			// o le
-			else veO(j, i, 11); 
+			else veO(j, i, 11);
 
 			if (BSuDungPhim == true) veO(CViTriConTro.X, CViTriConTro.Y, 12);
-		
+
 		}
 	}
 }
@@ -158,7 +157,7 @@ void xuatBom()
 	{
 		for (int j = 0; j < CTBang.SCot; j++)
 		{
-			if(CTO[i][j].BCoBom == true) cout << "1" << " ";
+			if (CTO[i][j].BCoBom == true) cout << "1" << " ";
 			if (CTO[i][j].BCoBom == false) cout << "0" << " ";
 		}
 		cout << endl;
@@ -166,13 +165,13 @@ void xuatBom()
 }
 
 // cam co (phim X)
-void X(short SX, short SY) 
+void X(short SX, short SY)
 {
 	// kiem tra o do la o chua mo
 	if (CTO[SX][SY].BDaMo == false)
 	{
 		// huy cam co
-		if(CTO[SX][SY].BCamnCo == true)
+		if (CTO[SX][SY].BCamnCo == true)
 		{
 			CTO[SX][SY].BCamnCo = false;
 			--CTBang.SSoCo;
@@ -228,7 +227,7 @@ void moO(short SX, short SY)
 				CTO[SX][SY].SBomLanCan = SSoBomLanCan;
 			}
 			// o rong
-			else 
+			else
 			{
 				// thuat toan loang
 				//	(SX-1,SY-1)		(SX-1,SY)		(SX-1,SY+1)	
@@ -301,7 +300,7 @@ void LOSE()
 
 // ham xu ly phim tu ban phim do nguoi dung nhap vao
 void xuLyPhim(KEY_EVENT_RECORD key)
-{
+{	
 	if (key.bKeyDown) // co nhan phim
 	{
 		switch (key.wVirtualKeyCode)
@@ -339,10 +338,10 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 			}
 			break;
 		case VK_RETURN:
-			
+
 			break;
 		case VK_ESCAPE:
-			
+
 			break;
 			// Z
 		case 0x5A:
@@ -399,8 +398,8 @@ void veTittle()
 	{
 		printf("%c", 45);
 	}
-	Taomauo(ConsoleWidth / 2 - 8 , 2, 6, 0, "MINESWEEPER GAME \n");
-	cout  << endl;
+	Taomauo(ConsoleWidth / 2 - 8, 2, 6, 0, "MINESWEEPER GAME \n");
+	cout << endl;
 	setColor(7);
 	setBackgroundColor(0);
 	for (i = 0; i < ConsoleWidth; ++i)
@@ -419,7 +418,7 @@ void veTrangThaiChoiGame()
 	setBackgroundColor(0);
 	cout << ": ";
 	setColor(4);
-	cout << CTBang.SSoBom << endl; 
+	cout << CTBang.SSoBom << endl;
 
 	setColor(15); // set status playing
 	if (STrangThai == 1)
@@ -433,7 +432,7 @@ void veTrangThaiChoiGame()
 	else if (STrangThai == 2)
 	{
 		setColor(6); // status win
-		for (int i = 0; i <= ConsoleWidth/2 -3 ; ++i)
+		for (int i = 0; i <= ConsoleWidth / 2 - 3; ++i)
 		{
 			cout << " ";
 		}
@@ -442,11 +441,43 @@ void veTrangThaiChoiGame()
 	else if (STrangThai == 3)
 	{
 		setColor(4); // status lose
-		for (int i = 0; i <= ConsoleWidth/2 - 4; ++i)
+		for (int i = 0; i <= ConsoleWidth / 2 - 4; ++i)
 		{
 			cout << " ";
 		}
 		cout << "LOSE";
 	}
 	setColor(7);
+}
+
+
+
+void veMenuChinh(short STrangThaiMenu)
+{
+	short Sindex = SviTri;
+	short SsoMuc = 4;
+	// ve 
+	string STnewGame = "NEW GAME";
+	string STranking = "RANKING";
+	string STexit = "EXIT";
+	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 11, 15, (Sindex == 0) ? 1 : 0, STnewGame);
+	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 10, 15, (Sindex == 1) ? 1 : 0, STranking);
+	Taomauo(ConsoleWidth / 2 - 3, ConsoleHeight / 2 - 9, 15, (Sindex == 2) ? 1 : 0, STexit);
+}
+
+void veMenuChonCapDo(short STrangThaiMenu)
+{
+	short Sindex = SviTri;
+	short SsoMuc = 5;
+	// ve
+	string STbeginner = "BEGINNER (MAP: 9X9 BOM: 10)";
+	string STintermediate = "INTERMEDIATE (MAP: 16x16 BOM: 40)";
+	string STexpert = "EXPERT (MAP: 24X24 BOM: 99)";
+	string STcustomize = "CUSTOMIZE";
+	string STback = "BACK TO MENU";
+	Taomauo(ConsoleWidth / 2 - 13, ConsoleHeight / 2 - 11, 15, (Sindex == 0) ? 1 : 0, STbeginner);
+	Taomauo(ConsoleWidth / 2 - 15, ConsoleHeight / 2 - 10, 15, (Sindex == 1) ? 1 : 0, STintermediate);
+	Taomauo(ConsoleWidth / 2 - 13, ConsoleHeight / 2 - 9, 15, (Sindex == 2) ? 1 : 0, STexpert);
+	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 8, 15, (Sindex == 3) ? 1 : 0, STcustomize);
+	Taomauo(ConsoleWidth / 2 - 6, ConsoleHeight / 2 - 7, 15, (Sindex == 4) ? 1 : 0, STback);
 }

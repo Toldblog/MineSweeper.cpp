@@ -23,3 +23,6 @@ void xuLyPhim(KEY_EVENT_RECORD key);
 void xuLySuKien();
 void veTittle();
 void veTrangThaiChoiGame();
+
+void veMenuChinh(short STrangThaiMenu);
+void veMenuChonCapDo(short STrangThaiMenu);
