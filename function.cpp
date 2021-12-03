@@ -12,7 +12,8 @@ bool BSuDungPhim = false;
 bool BTrangThaiDangChoi = false;
 short STrangThai = 1;
 short STrangThaiMenu = 1; // menu chinh
-short SviTri = 0;
+short SviTri = 1;
+short SmucChon;
 
 short ToaDoX;
 short ToaDoY;
@@ -298,98 +299,7 @@ void LOSE()
 	veTrangThaiChoiGame();
 }
 
-// ham xu ly phim tu ban phim do nguoi dung nhap vao
-void xuLyPhim(KEY_EVENT_RECORD key)
-{	
-	if (key.bKeyDown) // co nhan phim
-	{
-		switch (key.wVirtualKeyCode)
-		{
-		case VK_UP:
-			if (BTrangThaiDangChoi)
-			{
-				BSuDungPhim = true;
-				CViTriConTro.Y = ((CViTriConTro.Y == 0) ? CTBang.SDong - 1 : CViTriConTro.Y - 1);
-				veBang();
-			}
-			break;
-		case VK_DOWN:
-			if (BTrangThaiDangChoi)
-			{
-				BSuDungPhim = true;
-				CViTriConTro.Y = ((CViTriConTro.Y == CTBang.SDong - 1) ? 0 : CViTriConTro.Y + 1);
-				veBang();
-			}
-			break;
-		case VK_LEFT:
-			if (BTrangThaiDangChoi)
-			{
-				BSuDungPhim = true;
-				CViTriConTro.X = ((CViTriConTro.X == 0) ? CTBang.SCot - 1 : CViTriConTro.X - 1);
-				veBang();
-			}
-			break;
-		case VK_RIGHT:
-			if (BTrangThaiDangChoi)
-			{
-				BSuDungPhim = true;
-				CViTriConTro.X = ((CViTriConTro.X == CTBang.SCot - 1) ? 0 : CViTriConTro.X + 1);
-				veBang();
-			}
-			break;
-		case VK_RETURN:
 
-			break;
-		case VK_ESCAPE:
-
-			break;
-			// Z
-		case 0x5A:
-			if (BTrangThaiDangChoi)
-			{
-				Z(CViTriConTro.Y, CViTriConTro.X);
-			}
-			break;
-			// X
-		case 0x58:
-			if (BTrangThaiDangChoi)
-			{
-				X(CViTriConTro.Y, CViTriConTro.X); // CTO la bang 2 chieu tao tu dong(y) den cot(x) 
-			}
-			break;
-		}
-	}
-}
-void xuLySuKien()
-{
-	while (1)
-	{
-		DWORD DWNumberOffEvents = 0; // DWORD: so nguyen k dau 32bits
-		DWORD DWNumberOfEventSRead = 0; // so luong su kien da doc
-
-		HANDLE HConsoleInput = GetStdHandle(STD_INPUT_HANDLE); // thiet bi dau vao
-		GetNumberOfConsoleInputEvents(HConsoleInput, &DWNumberOffEvents); //truyen vao con tro den kieu DWORD(LPDWORD)
-
-		if (DWNumberOffEvents)
-		{
-			INPUT_RECORD* IREventBuffer = new INPUT_RECORD[DWNumberOffEvents]; //con tro EventBuffer
-			ReadConsoleInput(HConsoleInput, IREventBuffer, DWNumberOffEvents, &DWNumberOfEventSRead);// Dat cac su kien duoc luu tru vao con tro
-
-			//chay vong lap doc su kien
-			for (DWORD i = 0; i < DWNumberOffEvents; i++)
-			{
-				if (IREventBuffer[i].EventType == KEY_EVENT) // SUkienphim
-				{
-					xuLyPhim(IREventBuffer[i].Event.KeyEvent);
-				}
-				//else if (IREventBuffer[i].EventType == MOUSE_EVENT)
-				//{
-
-				//}
-			}
-		}
-	}
-}
 
 void veTittle()
 {
@@ -450,34 +360,204 @@ void veTrangThaiChoiGame()
 	setColor(7);
 }
 
-
-
-void veMenuChinh(short STrangThaiMenu)
+void veMenuChinh()
 {
 	short Sindex = SviTri;
-	short SsoMuc = 4;
+	short SsoMuc = SmucChon;
 	// ve 
 	string STnewGame = "NEW GAME";
 	string STranking = "RANKING";
 	string STexit = "EXIT";
-	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 11, 15, (Sindex == 0) ? 1 : 0, STnewGame);
-	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 10, 15, (Sindex == 1) ? 1 : 0, STranking);
-	Taomauo(ConsoleWidth / 2 - 3, ConsoleHeight / 2 - 9, 15, (Sindex == 2) ? 1 : 0, STexit);
+	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 6, 15, (Sindex == 1) ? 1 : 0, STnewGame);
+	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 5, 15, (Sindex == 2) ? 1 : 0, STranking);
+	Taomauo(ConsoleWidth / 2 - 3, ConsoleHeight / 2 - 4, 15, (Sindex == 3) ? 1 : 0, STexit);
 }
 
-void veMenuChonCapDo(short STrangThaiMenu)
+void veMenuChonCapDo()
 {
 	short Sindex = SviTri;
-	short SsoMuc = 5;
+	short SsoMuc = SmucChon;
 	// ve
 	string STbeginner = "BEGINNER (MAP: 9X9 BOM: 10)";
 	string STintermediate = "INTERMEDIATE (MAP: 16x16 BOM: 40)";
 	string STexpert = "EXPERT (MAP: 24X24 BOM: 99)";
-	string STcustomize = "CUSTOMIZE";
 	string STback = "BACK TO MENU";
-	Taomauo(ConsoleWidth / 2 - 13, ConsoleHeight / 2 - 11, 15, (Sindex == 0) ? 1 : 0, STbeginner);
-	Taomauo(ConsoleWidth / 2 - 15, ConsoleHeight / 2 - 10, 15, (Sindex == 1) ? 1 : 0, STintermediate);
-	Taomauo(ConsoleWidth / 2 - 13, ConsoleHeight / 2 - 9, 15, (Sindex == 2) ? 1 : 0, STexpert);
-	Taomauo(ConsoleWidth / 2 - 5, ConsoleHeight / 2 - 8, 15, (Sindex == 3) ? 1 : 0, STcustomize);
-	Taomauo(ConsoleWidth / 2 - 6, ConsoleHeight / 2 - 7, 15, (Sindex == 4) ? 1 : 0, STback);
+	Taomauo(ConsoleWidth / 2 - 13, ConsoleHeight / 2 - 6, 15, (Sindex == 1) ? 1 : 0, STbeginner);
+	Taomauo(ConsoleWidth / 2 - 15, ConsoleHeight / 2 - 5, 15, (Sindex == 2) ? 1 : 0, STintermediate);
+	Taomauo(ConsoleWidth / 2 - 13, ConsoleHeight / 2 - 4, 15, (Sindex == 3) ? 1 : 0, STexpert);
+	Taomauo(ConsoleWidth / 2 - 6, ConsoleHeight / 2 - 3, 15, (Sindex == 4) ? 1 : 0, STback);
+}
+
+// ham xu ly phim tu ban phim do nguoi dung nhap vao
+void xuLyPhim(KEY_EVENT_RECORD key)
+{
+	if (key.bKeyDown) // co nhan phim
+	{
+		switch (key.wVirtualKeyCode)
+		{
+		case VK_UP:
+			switch (STrangThaiMenu)
+			{
+			case 1: // trang menu
+				SmucChon = 3;
+				--SviTri;
+				if (SviTri < 1)
+					SviTri = SmucChon;
+				veMenuChinh();
+				break;
+			case 2: // trang chon cap do
+				SmucChon = 4;
+				--SviTri;
+				if (SviTri < 1)
+					SviTri = SmucChon;
+				veMenuChonCapDo();
+
+				break;
+			case 3:// trang choi game
+				if (BTrangThaiDangChoi)
+				{
+					BSuDungPhim = true;
+					CViTriConTro.Y = ((CViTriConTro.Y == 0) ? CTBang.SDong - 1 : CViTriConTro.Y - 1);
+					veBang();
+				}
+				break;
+			}
+			break;
+		case VK_DOWN:
+			switch (STrangThaiMenu)
+			{
+			case 1: // trang menu
+				SmucChon = 3;
+				++SviTri;
+				if (SviTri > SmucChon)
+					SviTri = 1;
+				veMenuChinh();
+				break;
+			case 2: // trang chon cap do
+				SmucChon = 4;
+				++SviTri;
+				if (SviTri > SmucChon)
+					SviTri = 1;
+				veMenuChonCapDo();
+
+				break;
+			case 3:// trang choi game
+				if (BTrangThaiDangChoi)
+				{
+					BSuDungPhim = true;
+					CViTriConTro.Y = ((CViTriConTro.Y == CTBang.SDong - 1) ? 0 : CViTriConTro.Y + 1);
+					veBang();
+				}
+				break;
+			}
+			break;
+		case VK_LEFT:
+			if (BTrangThaiDangChoi)
+			{
+				BSuDungPhim = true;
+				CViTriConTro.X = ((CViTriConTro.X == 0) ? CTBang.SCot - 1 : CViTriConTro.X - 1);
+				veBang();
+			}
+			break;
+		case VK_RIGHT:
+			if (BTrangThaiDangChoi)
+			{
+				BSuDungPhim = true;
+				CViTriConTro.X = ((CViTriConTro.X == CTBang.SCot - 1) ? 0 : CViTriConTro.X + 1);
+				veBang();
+			}
+			break;
+		case VK_RETURN: // Enter
+			switch (STrangThaiMenu)
+			{
+			case 1: //menu chinh
+				if (SviTri == 1) // Enter newgame
+				{
+					STrangThaiMenu = 2;// chuyen qua menu chon cap do
+					veMenuChonCapDo();
+				}
+				//else if (SviTri == 2) // Enter ranking
+				else // Enter exit
+					exit(0);
+				break;
+			case 2: //menu chon cap do
+				if (SviTri == 1) // Beginner
+				{
+					deleteRow(ConsoleHeight / 2 - 6, 4);
+					khoiTao(9, 9, 10);
+					veTrangThaiChoiGame();
+					STrangThaiMenu = 3;
+				}
+				else if (SviTri == 2) // Intermediate
+				{
+					deleteRow(ConsoleHeight / 2 - 6, 4);
+					khoiTao(16, 16, 40);
+					veTrangThaiChoiGame();
+					STrangThaiMenu = 3;
+				}
+				else if (SviTri == 3) // Expert
+				{
+					deleteRow(ConsoleHeight / 2 - 6, 4);
+					khoiTao(24, 24, 99);
+					veTrangThaiChoiGame();
+					STrangThaiMenu = 3;
+				}
+				else // Back to menu
+				{
+					deleteRow(ConsoleHeight / 2 - 6, 4);
+					STrangThaiMenu = 1;
+					veMenuChinh();
+				}
+				break;
+			}
+			break;
+		case VK_ESCAPE: //ESC
+
+			break;
+			// Z
+		case 0x5A:
+			if (BTrangThaiDangChoi)
+			{
+				Z(CViTriConTro.Y, CViTriConTro.X);
+			}
+			break;
+			// X
+		case 0x58:
+			if (BTrangThaiDangChoi)
+			{
+				X(CViTriConTro.Y, CViTriConTro.X); // CTO la bang 2 chieu tao tu dong(y) den cot(x) 
+			}
+			break;
+		}
+	}
+}
+void xuLySuKien()
+{
+	while (1)
+	{
+		DWORD DWNumberOffEvents = 0; // DWORD: so nguyen k dau 32bits
+		DWORD DWNumberOfEventSRead = 0; // so luong su kien da doc
+
+		HANDLE HConsoleInput = GetStdHandle(STD_INPUT_HANDLE); // thiet bi dau vao
+		GetNumberOfConsoleInputEvents(HConsoleInput, &DWNumberOffEvents); //truyen vao con tro den kieu DWORD(LPDWORD)
+
+		if (DWNumberOffEvents)
+		{
+			INPUT_RECORD* IREventBuffer = new INPUT_RECORD[DWNumberOffEvents]; //con tro EventBuffer
+			ReadConsoleInput(HConsoleInput, IREventBuffer, DWNumberOffEvents, &DWNumberOfEventSRead);// Dat cac su kien duoc luu tru vao con tro
+
+			//chay vong lap doc su kien
+			for (DWORD i = 0; i < DWNumberOffEvents; i++)
+			{
+				if (IREventBuffer[i].EventType == KEY_EVENT) // SUkienphim
+				{
+					xuLyPhim(IREventBuffer[i].Event.KeyEvent);
+				}
+				//else if (IREventBuffer[i].EventType == MOUSE_EVENT)
+				//{
+
+				//}
+			}
+		}
+	}
 }

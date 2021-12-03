@@ -13,12 +13,9 @@ int main()
 
 	Cursor(false); // An con tro
 
-
-	//khoiTao(10, 10, 4);
+	veMenuChinh();
 	
-	//veTrangThaiChoiGame();
-	
-	//xuLySuKien();
+	xuLySuKien();
 
 	return 0;
 }

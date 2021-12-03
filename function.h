@@ -19,10 +19,11 @@ void Z(short SX, short SY);
 
 void WIN();
 void LOSE();
-void xuLyPhim(KEY_EVENT_RECORD key);
-void xuLySuKien();
+
 void veTittle();
 void veTrangThaiChoiGame();
 
-void veMenuChinh(short STrangThaiMenu);
-void veMenuChonCapDo(short STrangThaiMenu);
+void veMenuChinh();
+void veMenuChonCapDo();
+void xuLyPhim(KEY_EVENT_RECORD key);
+void xuLySuKien();
