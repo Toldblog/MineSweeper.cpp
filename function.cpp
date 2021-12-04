@@ -17,7 +17,7 @@ short SmucChon;
 short ToaDoX;
 short ToaDoY;
 
-bool Bend = false;
+clock_t start;
 
 // dich chuyen bang ra giua man hinh console
 void luuToaDoXY()
@@ -45,13 +45,14 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	CTBang.SSoCo = 0;
 	CTBang.SSoOOaMo = 0;
 
+	
 	taoMang2ChieuDong();
 	taoBomNgauNhien();
 	luuToaDoXY();
 	CViTriConTro = { 0, 0 };
 	BTrangThaiDangChoi = true;
 	veBang();
-
+	start = clock();
 }
 
 // moi lan di chuyen x di 2 o
@@ -150,19 +151,6 @@ void taoBomNgauNhien()
 			continue;
 		CTO[Si][Sj].BCoBom = true;
 		--SSoBom;
-	}
-}
-
-void xuatBom()
-{
-	for (int i = 0; i < CTBang.SDong; i++)
-	{
-		for (int j = 0; j < CTBang.SCot; j++)
-		{
-			if (CTO[i][j].BCoBom == true) cout << "1" << " ";
-			if (CTO[i][j].BCoBom == false) cout << "0" << " ";
-		}
-		cout << endl;
 	}
 }
 
@@ -274,10 +262,16 @@ void Z(short SX, short SY)
 
 void WIN()
 {
+	
 	BTrangThaiDangChoi = false;
 	STrangThai = 2;
 	deleteRow(7, 1);
 	veTrangThaiChoiGame();
+	clock_t end = clock();
+	double time = (double)(end - start) / CLOCKS_PER_SEC;
+	gotoXY(ConsoleWidth / 2 - 3, ConsoleHeight / 2 - 5);	
+	cout << time << 's';
+
 }
 
 void LOSE()
@@ -299,8 +293,6 @@ void LOSE()
 	deleteRow(7, 1);
 	veTrangThaiChoiGame();
 }
-
-
 
 void veTittle()
 {
@@ -483,21 +475,26 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 			case 2: //menu chon cap do
 				if (SviTri == 1) // Beginner
 				{
-					deleteRow(ConsoleHeight / 2 - 6, 4);
+					deleteRow(ConsoleHeight / 2 - 6, 4);				
 					khoiTao(9, 9, 10);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
+					
+					
 				}
 				else if (SviTri == 2) // Intermediate
 				{
 					deleteRow(ConsoleHeight / 2 - 6, 4);
+					
 					khoiTao(16, 16, 40);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
+					
 				}
 				else if (SviTri == 3) // Expert
 				{
 					deleteRow(ConsoleHeight / 2 - 6, 4);
+					
 					khoiTao(24, 24, 99);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
@@ -562,23 +559,3 @@ void xuLySuKien()
 	}
 }
 
-void timer()
-{
-	int s = 0, m = 0, h = 0;
-	while (true)
-	{
-		if (s == 60 && m == 60)
-		{
-			m = 0;
-			++h;
-		}
-		if (s == 60)
-		{
-			s = 0;
-			++m;
-		}
-		deleteRow()
-		cout << h << ":" << m << ":" << ++s;
-		Sleep(1000);
-	}
-}

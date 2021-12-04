@@ -21,3 +21,8 @@ struct CauTrucO
 	short SBomLanCan = 0;
 };
 
+//clock_t start = clock()
+//clock_t end = clock();
+//float time = (float)(end - start);
+//gotoXY(ConsoleWidth / 2 - 3, ConsoleHeight / 2 - 5);
+//cout << time;
