@@ -23,7 +23,7 @@ clock_t start;
 void luuToaDoXY()
 {
 	ToaDoX = (ConsoleWidth / 2) - CTBang.SCot;
-	ToaDoY = ((ConsoleHeight - 6 - CTBang.SDong) / 2) + 6;
+	ToaDoY = ((ConsoleHeight - 6 - CTBang.SDong) / 2) + 8;
 }
 
 // tao bang bang vector 2 chieu
@@ -154,7 +154,6 @@ void taoBomNgauNhien()
 	}
 }
 
-// cam co (phim X)
 void X(short SX, short SY)
 {
 	// kiem tra o do la o chua mo
@@ -176,7 +175,6 @@ void X(short SX, short SY)
 	veBang();
 }
 
-// ham cap nhat so bom lan can cua 1 o -> vector 2 chieu CTO[i][j]
 short demBomLanCan(short SX, short SY)
 {
 	short SDem = 0;
@@ -191,7 +189,6 @@ short demBomLanCan(short SX, short SY)
 	return SDem;
 }
 
-// mo o co 3 loai (o co bom, o co so, o rong)
 void moO(short SX, short SY)
 {
 	// kiem tra o do phai la o chua mo va chua cam co
@@ -241,7 +238,6 @@ void moO(short SX, short SY)
 	}
 }
 
-// mo o (phim Z)
 void Z(short SX, short SY)
 {
 	// kiem tra o do k phai la do da mo va o do chua cam co -> mo o
@@ -268,10 +264,18 @@ void WIN()
 	deleteRow(7, 1);
 	veTrangThaiChoiGame();
 	clock_t end = clock();
-	double time = (double)(end - start) / CLOCKS_PER_SEC;
-	gotoXY(ConsoleWidth / 2 - 3, ConsoleHeight / 2 - 5);	
-	cout << time << 's';
+	double sec = (double)(end - start) / CLOCKS_PER_SEC;
+	double min = 0;
+	if (sec > 60)
+	{
+		min = (int)sec / 60;
+		sec -= min * 60;
+	}
+	gotoXY(ConsoleWidth / 2 - 7, ConsoleHeight / 2 - 11);
+	{
+		cout << "(*^_^) " << min << ':' << (int)sec << 's';
 
+	}
 }
 
 void LOSE()
@@ -297,23 +301,34 @@ void LOSE()
 void veTittle()
 {
 	short i;
+	setColor(3);
 	for (i = 0; i < ConsoleWidth; ++i)
 	{
-		printf("%c", 45);
+		printf("%c", 15);
 	}
 	Taomauo(ConsoleWidth / 2 - 8, 2, 6, 0, "MINESWEEPER GAME \n");
 	cout << endl;
-	setColor(7);
+	
 	setBackgroundColor(0);
+	setColor(3);
 	for (i = 0; i < ConsoleWidth; ++i)
 	{
-		printf("%c", 45);
+		printf("%c", 15);
 	}
+	setColor(7);
 }
 
 void veTrangThaiChoiGame()
 {
+	setColor(3);
 	setBackgroundColor(0);
+	gotoXY(0, ConsoleHeight / 2 - 9);
+	for (short i = 0; i < ConsoleWidth; ++i)
+	{
+		printf("%c", 15);
+	}
+	setColor(7);
+	
 	Taomauo(1, 5, 15, 0, "MAP");
 	setBackgroundColor(0);
 	cout << ": " << CTBang.SDong << " x " << CTBang.SCot << endl;
@@ -322,7 +337,6 @@ void veTrangThaiChoiGame()
 	cout << ": ";
 	setColor(4);
 	cout << CTBang.SSoBom << endl;
-
 	setColor(15); // set status playing
 	if (STrangThai == 1)
 	{
@@ -476,7 +490,7 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 				if (SviTri == 1) // Beginner
 				{
 					deleteRow(ConsoleHeight / 2 - 6, 4);				
-					khoiTao(9, 9, 10);
+					khoiTao(9, 9, 1);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
 					
@@ -495,7 +509,7 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 				{
 					deleteRow(ConsoleHeight / 2 - 6, 4);
 					
-					khoiTao(24, 24, 99);
+					khoiTao(24, 24, 100);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
 				}
