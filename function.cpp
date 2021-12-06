@@ -37,6 +37,58 @@ void taoMang2ChieuDong()
 	}
 }
 
+void veKhung()
+{
+	setColor(3);
+	setBackgroundColor(0);
+	for (short i = 0; i < CTBang.SDong + 1; ++i)
+	{
+		gotoXY(ToaDoX - 1, ToaDoY - 1);
+		if (i == 0)
+		{
+
+			printf("%c", 218);
+			for (int j = 0; j < CTBang.SCot * 2; ++j)
+			{
+				printf("%c", 196);
+			}
+			printf("%c", 191);
+			cout << endl;
+		}
+		if (i == CTBang.SDong)
+		{
+			gotoXY(ToaDoX - 1, ToaDoY + CTBang.SDong);
+			printf("%c", 192);
+			for (int j = 0; j < CTBang.SCot * 2; ++j)
+			{
+				printf("%c", 196);
+			}
+			printf("%c", 217);
+			cout << endl;
+		}
+		else
+		{
+			for (int j = 0; j < CTBang.SCot * 2 + 1; ++j)
+			{
+				if (j == 0)
+				{
+					gotoXY(ToaDoX - 1, ToaDoY + i);
+					printf("%c", 179);
+				}
+				if (j == CTBang.SCot * 2 - 1)
+				{
+					gotoXY(ToaDoX + CTBang.SCot * 2, ToaDoY + i);
+					printf("%c", 179);
+					cout << endl;
+				}
+			}
+		}
+
+	}
+	printf("%c", 191);
+	setColor(7);
+}
+
 void khoiTao(short SDong, short SCot, short SSoBom)
 {
 	CTBang.SDong = SDong;
@@ -44,13 +96,13 @@ void khoiTao(short SDong, short SCot, short SSoBom)
 	CTBang.SSoBom = SSoBom;
 	CTBang.SSoCo = 0;
 	CTBang.SSoOOaMo = 0;
-
 	
 	taoMang2ChieuDong();
 	taoBomNgauNhien();
 	luuToaDoXY();
 	CViTriConTro = { 0, 0 };
 	BTrangThaiDangChoi = true;
+	veKhung();
 	veBang();
 	start = clock();
 }
@@ -92,18 +144,14 @@ void veO(short Sx, short Sy, short So)
 		break;
 	case 10:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 8, "  ");//o chan mau xam
 		break;
-
 	case 11:	Taomauo(toadoXao(Sx), toadoYao(Sy), 0, 7, "  ");//o le mau trang
 		break;
-
 	case 12:	Taomauo(toadoXao(Sx) + 1, toadoYao(Sy), 0, 11, " "); // con tro
 		break;
-
 	case 13:	Taomauo(toadoXao(Sx), toadoYao(Sy), 12, 14, "F "); // X cam co
 		break;
 	case 14:	Taomauo(toadoXao(Sx), toadoYao(Sy), 15, 16, "Fx"); // cam co dung
 		break;
-
 	case 15:	Taomauo(toadoXao(Sx), toadoYao(Sy), 16, 12, "B ");// Bom chua tim dc
 		break;
 	}
@@ -489,8 +537,8 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 			case 2: //menu chon cap do
 				if (SviTri == 1) // Beginner
 				{
-					deleteRow(ConsoleHeight / 2 - 6, 4);				
-					khoiTao(9, 9, 1);
+					deleteRow(ConsoleHeight / 2 - 6, 4);
+					khoiTao(9, 9, 10);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
 					

@@ -7,6 +7,7 @@ using namespace std;
 
 void luuToaDoXY();
 void taoMang2ChieuDong();
+void veKhung();
 void khoiTao(short SDong, short SCot, short SSoBom);
 short toadoXao(short Sy);
 short toadoYao(short Sy);
