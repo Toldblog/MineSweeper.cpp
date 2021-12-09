@@ -6,6 +6,8 @@
 CauTrucBang CTBang;
 vector <vector <CauTrucO> > CTO;
 COORD CViTriConTro;
+fileTime filetime;
+
 
 bool BSuDungPhim = false;
 bool BTrangThaiDangChoi = false;
@@ -85,7 +87,6 @@ void veKhung()
 		}
 
 	}
-	printf("%c", 191);
 	setColor(7);
 }
 
@@ -313,16 +314,18 @@ void WIN()
 	veTrangThaiChoiGame();
 	clock_t end = clock();
 	double sec = (double)(end - start) / CLOCKS_PER_SEC;
+	filetime.sec = (int)sec;
 	double min = 0;
 	if (sec > 60)
 	{
 		min = (int)sec / 60;
+		filetime.min = (int)min;
 		sec -= min * 60;
+		filetime.sec =(int)sec;
 	}
 	gotoXY(ConsoleWidth / 2 - 7, ConsoleHeight / 2 - 11);
 	{
-		cout << "(*^_^) " << min << ':' << (int)sec << 's';
-
+		cout << "(*^_^) " << filetime.min << ':' << filetime.sec << 's';
 	}
 }
 
@@ -397,20 +400,20 @@ void veTrangThaiChoiGame()
 	else if (STrangThai == 2)
 	{
 		setColor(6); // status win
-		for (int i = 0; i <= ConsoleWidth / 2 - 3; ++i)
+		for (int i = 0; i <= ConsoleWidth / 2 - 6; ++i)
 		{
 			cout << " ";
 		}
-		cout << "WIN";
+		cout << "YOU WIN";
 	}
 	else if (STrangThai == 3)
 	{
 		setColor(4); // status lose
-		for (int i = 0; i <= ConsoleWidth / 2 - 4; ++i)
+		for (int i = 0; i <= ConsoleWidth / 2 - 20; ++i)
 		{
 			cout << " ";
 		}
-		cout << "LOSE";
+		cout << "OOPS YOU LOSE, BETTER LUCK NEXT TIME";
 	}
 	setColor(7);
 }
@@ -590,6 +593,7 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 		}
 	}
 }
+
 void xuLySuKien()
 {
 	while (1)
