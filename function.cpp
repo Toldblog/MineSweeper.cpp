@@ -7,6 +7,7 @@ CauTrucBang CTBang;
 vector <vector <CauTrucO> > CTO;
 COORD CViTriConTro;
 fileTime filetime;
+vector<fileTime> timevector;
 
 
 bool BSuDungPhim = false;
@@ -323,6 +324,7 @@ void WIN()
 		sec -= min * 60;
 		filetime.sec =(int)sec;
 	}
+	timevector.push_back(filetime); //Luu vao vector fileTime
 	gotoXY(ConsoleWidth / 2 - 7, ConsoleHeight / 2 - 11);
 	{
 		cout << "(*^_^) " << filetime.min << ':' << filetime.sec << 's';
