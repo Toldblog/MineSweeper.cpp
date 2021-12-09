@@ -625,3 +625,59 @@ void xuLySuKien()
 	}
 }
 
+//Lay thoi gian cua game do
+int getTime(fileTime t) {
+	return t.min * 60 + t.sec;
+}
+
+//Ham swap cho moi kieu du lieu
+template<typename T>
+void HoanVi(T& a, T& b) {
+	T temp = a;
+	a = b;
+	b = temp;
+}
+
+//Sap xep thu tu thoi gian tu nhanh nhat den cham nhat
+void constructRanking(vector<fileTime> &arr) {
+	for (int i = 0; i < arr.size() - 1; i++) {
+		for (int j = i + 1; j < arr.size(); j++) {
+			if (getTime(arr[i]) > getTime(arr[j])) {
+				HoanVi(arr[i], arr[j]);
+			}
+		}
+	}
+}
+
+//Ghi vao file ranking.txt
+void writeFileRanking(vector<fileTime> arr) {
+	fstream fout;
+	fout.open("ranking.txt", fstream::out);
+	for (int i = 0; i < arr.size(); i++) {
+		fout << arr[i].min << " " << arr[i].sec << "\n";
+	}
+	fout.close();
+}
+
+//Doc file va luu vao array fileTime
+void readFileRanking(vector<fileTime> &arr) { //khi doc file array chua biet co bao nhieu phan tu
+	fstream fin;
+	fin.open("ranking.txt", fstream::in);
+	int m, s;
+	fileTime temp;
+	while (!fin.eof()) { //chay vong while cho den khi het file
+		fin >> m >> s;
+		temp.min = m;
+		temp.sec = s;
+		arr.push_back(temp); //Them 1 thoi gian vao mang vector
+	}
+	fin.close();
+}
+
+//In bang ranking ra man hinh
+void printRanking(vector<fileTime> arr) {
+	for (int i = 0; i < arr.size(); i++) {
+		std::cout << i + 1 << ". " << arr[i].min << "p" << arr[i].sec << "s\n";
+		//Co the chinh lai in tren giao dien (mau sac)
+	}
+}
