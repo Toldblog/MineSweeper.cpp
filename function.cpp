@@ -1,4 +1,4 @@
-#include "function.h"
+﻿#include "function.h"
 #include "main.h"
 #include "console.h"
 #include <vector>
@@ -20,6 +20,71 @@ short ToaDoX;
 short ToaDoY;
 
 clock_t start;
+
+
+int getTime(fileTime t) {
+	return t.min * 60 + t.sec;
+}
+
+template<typename T>
+void HoanVi(T& a, T& b) {
+	T temp = a;
+	a = b;
+	b = temp;
+}
+
+//Sap xep thu tu thoi gian tu nhanh nhat den cham nhat
+void constructRanking(vector<fileTime>& arr) {
+	for (int i = 0; i < arr.size() - 1; i++) {
+		for (int j = i + 1; j < arr.size(); j++) {
+			if (getTime(arr[i]) > getTime(arr[j])) {
+				HoanVi(arr[i], arr[j]);
+			}
+		}
+	}
+}
+
+//Ghi vao file ranking.txt
+void writeFileRanking(vector<fileTime> arr) {
+	fstream fout;
+	fout.open("C:\\Users\\Hung\\OneDrive\\Máy tính\\input.txt", ios_base::out);
+	for (int i = 0; i < arr.size(); i++) {
+		fout << arr[i].min << " " << arr[i].sec << "\n";
+	}
+	fout.close();
+}
+
+//Doc file va luu vao array fileTime
+void readFileRanking(vector<fileTime>& arr) { //khi doc file array chua biet co bao nhieu phan tu
+	fstream fin;
+	fin.open("C:\\Users\\Hung\\OneDrive\\Máy tính\\input.txt", ios_base::in);
+	if (fin.is_open()) {
+		int m, s;
+		fileTime temp;
+		while (!fin.eof()) { //chay vong while cho den khi het file
+			fin >> m >> s;
+			//cout << m << s;
+			temp.min = m;
+			//cout << temp.min << " ";
+			temp.sec = s;
+			//cout << temp.sec << endl;
+			arr.push_back(temp); //Them 1 thoi gian vao mang vector
+		}
+	}
+	fin.close();
+}
+
+//In bang ranking ra man hinh
+void printRanking(vector<fileTime> arr) {
+	gotoXY(ConsoleWidth / 2 - 10, ConsoleHeight / 2 - 5);
+	for (int i = 0; i < arr.size(); i++) {
+		gotoXY(ConsoleWidth / 2 - 25, ConsoleHeight / 2 - 5  + i);
+		cout << i + 1 << ". " << arr[i].min << " : " << arr[i].sec << "s\n";
+		//Co the chinh lai in tren giao dien (mau sac)
+	}
+}
+
+
 
 // dich chuyen bang ra giua man hinh console
 void luuToaDoXY()
@@ -327,6 +392,12 @@ void WIN()
 	{
 		cout << "(*^_^) " << filetime.min << ':' << filetime.sec << 's';
 	}
+	vector <fileTime> timevector;
+	timevector.push_back(filetime);
+	readFileRanking(timevector);
+	constructRanking(timevector);
+	writeFileRanking(timevector);
+	printRanking(timevector);
 }
 
 void LOSE()
@@ -541,11 +612,9 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 				if (SviTri == 1) // Beginner
 				{
 					deleteRow(ConsoleHeight / 2 - 6, 4);
-					khoiTao(9, 9, 10);
+					khoiTao(9, 9, 1);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
-					
-					
 				}
 				else if (SviTri == 2) // Intermediate
 				{

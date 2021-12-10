@@ -3,8 +3,23 @@
 #include <time.h>
 #include <stdio.h>
 #include <fstream>
+#include "main.h"
+#include <vector>
 
 using namespace std;
+
+int getTime(fileTime t);
+template<typename T>
+void HoanVi(T& a, T& b);
+
+void constructRanking(vector<fileTime>& arr);
+
+void writeFileRanking(vector<fileTime> arr);
+
+void readFileRanking(vector<fileTime>& arr);
+
+void printRanking(vector<fileTime> arr);
+
 
 void luuToaDoXY();
 void taoMang2ChieuDong();
