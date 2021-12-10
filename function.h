@@ -43,3 +43,17 @@ void veMenuChonCapDo();
 void xuLyPhim(KEY_EVENT_RECORD key);
 void xuLySuKien();
 
+
+int getTime(fileTime t);
+//Ham swap cho moi kieu du lieu
+template<typename T>
+void HoanVi(T& a, T& b);
+//Sap xep thu tu thoi gian tu nhanh nhat den cham nhat
+void constructRanking(vector<fileTime>& arr);
+//Ghi vao file ranking.txt
+void writeFileRanking(vector<fileTime> arr);
+//Doc file va luu vao array fileTime
+void readFileRanking(vector<fileTime>& arr);
+//In bang ranking ra man hinh
+void printRanking(vector<fileTime> arr);
+
