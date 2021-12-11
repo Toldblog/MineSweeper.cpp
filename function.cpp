@@ -1,4 +1,4 @@
-﻿#include "function.h"
+#include "function.h"
 #include "main.h"
 #include "console.h"
 #include <vector>
@@ -77,15 +77,12 @@ void readFileRanking(vector<fileTime>& arr) { //khi doc file array chua biet co 
 
 //In bang ranking ra man hinh
 void printRanking(vector<fileTime> arr) {
-	gotoXY(ConsoleWidth / 2 - 10, ConsoleHeight / 2 - 5);
-	for (int i = 0; i < arr.size(); i++) {
-		gotoXY(ConsoleWidth / 2 - 25, ConsoleHeight / 2 - 5  + i);
+	for (int i = 0; i < 10; i++) {
+		gotoXY(ConsoleWidth / 2 - 40, ConsoleHeight / 2 - 5  + i);
 		cout << i + 1 << ". " << arr[i].min << " : " << arr[i].sec << "s\n";
 		//Co the chinh lai in tren giao dien (mau sac)
 	}
 }
-
-
 
 // dich chuyen bang ra giua man hinh console
 void luuToaDoXY()
@@ -493,6 +490,7 @@ void veTrangThaiChoiGame()
 
 void veMenuChinh()
 {
+	deleteRow(ConsoleHeight / 2 - 5, 10);
 	short Sindex = SviTri;
 	short SsoMuc = SmucChon;
 	// ve 
@@ -606,7 +604,15 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 					STrangThaiMenu = 2;// chuyen qua menu chon cap do
 					veMenuChonCapDo();
 				}
-				//else if (SviTri == 2) // Enter ranking
+				else if (SviTri == 2) // Enter ranking
+				{
+					setColor(3);
+					setBackgroundColor(0);
+					deleteRow(ConsoleHeight / 2 - 6, 3);
+					vector <fileTime> timevector;
+					readFileRanking(timevector);
+					printRanking(timevector);
+				}
 				else // Enter exit
 					exit(0);
 				break;
@@ -614,7 +620,7 @@ void xuLyPhim(KEY_EVENT_RECORD key)
 				if (SviTri == 1) // Beginner
 				{
 					deleteRow(ConsoleHeight / 2 - 6, 4);
-					khoiTao(9, 9, 1);
+					khoiTao(9, 9, 10);
 					veTrangThaiChoiGame();
 					STrangThaiMenu = 3;
 				}
